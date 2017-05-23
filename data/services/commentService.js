@@ -2,27 +2,28 @@ import { Post, User, Comment } from '../models';
 
 //TODO: complete comment service
 // hook up to posts and user
-const getCommentById = async (root, { id }) => {
+const getCommentById = async function(_id) {
   try {
-    let comment = await Comment.findOne({ _id  }).exec();
+    let comment = await Comment.findOne({ _id }).exec();
     return comment;
-  }
-  catch (err) {
+  } catch (err) {
     return err;
   }
 };
 
 const getListOfComments = async () => {
   try {
-    let comment = await Comment.find({}).populate({
-      path: '_creator',
-      select: 'username createdAt'
-    }).populate({
-      path: 'post',
-      select: 'title',
-    }).exec();
-  }
-  catch(err) {
+    let comment = await Comment.find({})
+      .populate({
+        path: '_creator',
+        select: 'username createdAt'
+      })
+      .populate({
+        path: 'post',
+        select: 'title'
+      })
+      .exec();
+  } catch (err) {
     return err;
   }
 };
@@ -31,11 +32,10 @@ const getAllCommentsByUser = async (root, { _id }) => {
   try {
     let comments = await User.find({ _id }).populate('Comments').exec();
     return comments;
-  }
-  catch(err) {
+  } catch (err) {
     return err;
   }
-}
+};
 
 // const addComment = async (obj, {text, postId, userId}) => {
 //   let newComment = new Comment({
@@ -47,11 +47,11 @@ const getAllCommentsByUser = async (root, { _id }) => {
 //   try {
 //     newComment = await newComment.save();
 //     //push comment to post
-//     let post = await Post.find({ 
+//     let post = await Post.find({
 //       _id: postId,
 //       { $push: { 'comments': newComment._id } }
 //     });
-//   } 
+//   }
 //   catch(err) {
 //     return err;
 //   }
@@ -77,6 +77,6 @@ const getAllCommentsByUser = async (root, { _id }) => {
 
 module.exports = {
   getCommentById,
-  getListOfComments,
+  getListOfComments
   // addComment,
-}
+};

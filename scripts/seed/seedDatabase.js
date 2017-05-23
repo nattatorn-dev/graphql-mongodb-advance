@@ -10,27 +10,27 @@ mongoose.connect(config.databaseURL, () => {
 
 console.log('what is connection', config.databaseURL);
 
-let createPost = async (user) => {
-  let post = new Post({
+const createPost = async user => {
+  const post = new Post({
     title: casual.title,
     content: casual.text,
     type: 'post',
-    _creator: user._id,
+    _creator: user._id
   });
 
   await post.save();
   await user.posts.push(post);
   await user.save();
-}
+};
 
-let createUser = async () => {
-  let fakeUser = new User({
+const createUser = async () => {
+  const fakeUser = new User({
     username: casual.username,
     first_name: casual.first_name,
     last_name: casual.last_name,
     email: casual.email,
     password: casual.password,
-    type: 'user',
+    type: 'user'
   });
 
   await fakeUser.save();
@@ -41,10 +41,16 @@ let createUser = async () => {
   return fakeUser;
 };
 
-let user1 = createUser();
-let user2 = createUser();
-let user3 = createUser();
-let user4 = createUser();
+const seed = async () => {
+  await createUser();
+  await createUser();
+  await createUser();
+  await createUser();
+
+  mongoose.disconnect();
+};
+
+seed();
 
 //TODO: seed database with friends and comments
 // console.log('what is user1', user1); <- returning undefined..
@@ -59,7 +65,7 @@ let user4 = createUser();
 // user3.save();
 // user4.save();
 
-setTimeout(function() {
-  console.log('user user1:', user1._id); //returning undefined
-  mongoose.disconnect();
-}, 1000)
+// setTimeout(function() {
+//   console.log('user user1:', user1._id); //returning undefined
+//   mongoose.disconnect();
+// }, 1000);

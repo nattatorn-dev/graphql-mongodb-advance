@@ -6,23 +6,23 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
-  GraphQLInterfaceType,
+  GraphQLInterfaceType
 } from 'graphql';
 
 import { User, Post, Comment } from './../models';
 import { nodeInterface, nodeField } from './../node';
-import { postService, userService, commentService} from './../services';
+import { postService, userService, commentService } from './../services';
 import UserType from './user';
 import PostType from './post';
 import CommentType from './comment';
 
-const QueryType = new GraphQLObjectType ({
+const QueryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     node: nodeField,
     users: {
       type: new GraphQLList(UserType),
-      resolve: userService.getListofUsers,
+      resolve: userService.getListofUsers
     },
     user: {
       type: UserType,
@@ -31,13 +31,13 @@ const QueryType = new GraphQLObjectType ({
           type: GraphQLID
         }
       },
-      resolve: (root, {id}) => {
-        return userService.getUserById(id)
+      resolve: (root, { id }) => {
+        return userService.getUserById(id);
       }
     },
     posts: {
       type: new GraphQLList(PostType),
-      resolve: postService.getListOfPosts,
+      resolve: postService.getListOfPosts
     },
     post: {
       type: PostType,
@@ -46,13 +46,13 @@ const QueryType = new GraphQLObjectType ({
           type: GraphQLID
         }
       },
-      resolve: (root, {id}) => {
-        return postService.getPostById(id)
+      resolve: (root, { id }) => {
+        return postService.getPostById(id);
       }
     },
     comments: {
       type: new GraphQLList(CommentType),
-      resolve: commentService.getListofComments,
+      resolve: commentService.getListofComments
     },
     comment: {
       type: CommentType,
@@ -61,11 +61,11 @@ const QueryType = new GraphQLObjectType ({
           type: GraphQLID
         }
       },
-      resolve: (root, {id}) => {
-        return commentService.getCommentById(id)
+      resolve: (root, { id }) => {
+        return commentService.getCommentById(id);
       }
     }
-  }),
+  })
 });
 
 export default QueryType;
