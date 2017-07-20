@@ -6,20 +6,20 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
-} from 'graphql';
+} from 'graphql'
 
-import { Post } from '../models';
-import { nodeInterface } from './../node';
-import DateType  from './customScalars/date';
-import UserType from './user';
-import CommentType from './comment';
+import { Post } from '../models'
+import { nodeInterface } from './../node'
+import DateType from './customScalars/date'
+import UserType from './user'
+import CommentType from './comment'
 
 let PostType = new GraphQLObjectType({
   name: 'Post',
   description: 'a Post created by a user',
   interfaces: nodeInterface,
   fields: () => ({
-    _id: { 
+    _id: {
       type: new GraphQLNonNull(GraphQLID),
       // type: globalIdField('Post'),
       // description: 'id created from graphqql-relay',
@@ -52,7 +52,7 @@ let PostType = new GraphQLObjectType({
     type: {
       type: new GraphQLNonNull(GraphQLString),
     },
-  })
+  }),
 })
 
-export default PostType;
+export default PostType

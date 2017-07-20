@@ -6,36 +6,34 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
-} from 'graphql';
+} from 'graphql'
 
-import {
-  globalIdField
-} from 'graphql-relay';
+import { globalIdField } from 'graphql-relay'
 
-import { User, Post, Comment } from '../models';
-import { nodeInterface } from './../node';
-import PostType from './post';
-import CommentType from './comment';
+import { User, Post, Comment } from '../models'
+import { nodeInterface } from './../node'
+import PostType from './post'
+import CommentType from './comment'
 //TODO: fix custom scalar for date type (showing null in graphql)
-import DateType  from './customScalars/date';
+import DateType from './customScalars/date'
 
 let UserType = new GraphQLObjectType({
   name: 'User',
   description: 'A person who uses the app',
   interfaces: nodeInterface,
   fields: () => ({
-    _id: { 
+    _id: {
       // type: globalIdField('User'),
       type: new GraphQLNonNull(GraphQLID),
       // description: 'id created from graphql-relay',
     },
     first_name: {
       type: GraphQLString,
-      description: 'user\'s first name',
+      description: "user's first name",
     },
     last_name: {
       type: GraphQLString,
-      description: 'user\'s last name',
+      description: "user's last name",
     },
     username: {
       type: GraphQLString,
@@ -43,7 +41,7 @@ let UserType = new GraphQLObjectType({
     },
     email: {
       type: GraphQLString,
-      description: 'user\'s email address',
+      description: "user's email address",
     },
     created_at: {
       type: DateType, //TODO: change to Date format
@@ -55,11 +53,11 @@ let UserType = new GraphQLObjectType({
     },
     type: {
       type: new GraphQLNonNull(GraphQLString),
-      description: 'type identified for node definitions'
+      description: 'type identified for node definitions',
     },
     posts: {
       type: new GraphQLList(PostType),
-      description: 'posts that belong to User'
+      description: 'posts that belong to User',
     },
     comments: {
       type: new GraphQLList(CommentType),
@@ -72,4 +70,4 @@ let UserType = new GraphQLObjectType({
   }),
 })
 
-export default UserType;
+export default UserType

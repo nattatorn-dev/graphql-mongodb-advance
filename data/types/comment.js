@@ -5,13 +5,13 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLString
-} from 'graphql';
+  GraphQLString,
+} from 'graphql'
 
-import { nodeInterface } from './../node';
-import DateType from './customScalars/date';
-import UserType from './user';
-import PostType from './post';
+import { nodeInterface } from './../node'
+import DateType from './customScalars/date'
+import UserType from './user'
+import PostType from './post'
 
 let CommentType = new GraphQLObjectType({
   name: 'Comment',
@@ -19,35 +19,35 @@ let CommentType = new GraphQLObjectType({
   interfaces: nodeInterface,
   fields: () => ({
     _id: {
-      type: new GraphQLNonNull(GraphQLID)
+      type: new GraphQLNonNull(GraphQLID),
       // type: globalIdField('Post'),
       // description: 'id created from graphqql-relay',
     },
     text: {
       type: GraphQLString,
-      description: 'content of comment'
+      description: 'content of comment',
     },
     //create connection
     _creator: {
       type: UserType,
-      description: 'user who wrote the comment'
+      description: 'user who wrote the comment',
     },
     post: {
       type: PostType,
-      description: 'post from which comment was made'
+      description: 'post from which comment was made',
     },
     created_at: {
       type: DateType,
-      description: 'date the note was created'
+      description: 'date the note was created',
     },
     updated_at: {
       type: DateType,
-      description: 'date user updated comment'
+      description: 'date user updated comment',
     },
     type: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
-  })
-});
+      type: new GraphQLNonNull(GraphQLString),
+    },
+  }),
+})
 
-export default CommentType;
+export default CommentType

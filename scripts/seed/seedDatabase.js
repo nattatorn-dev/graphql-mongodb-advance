@@ -1,27 +1,27 @@
-import mongoose from 'mongoose';
-import config from './../../config';
-import casual from 'casual';
+import mongoose from 'mongoose'
+import config from './../../config'
+import casual from 'casual'
 
-import { User, Post, Comment } from './../../data/models';
+import { User, Post, Comment } from './../../data/models'
 
 mongoose.connect(config.databaseURL, () => {
-  console.log('connected to mongodb at ', config.databaseURL);
-});
+  console.log('connected to mongodb at ', config.databaseURL)
+})
 
-console.log('what is connection', config.databaseURL);
+console.log('what is connection', config.databaseURL)
 
 const createPost = async user => {
   const post = new Post({
     title: casual.title,
     content: casual.text,
     type: 'post',
-    _creator: user._id
-  });
+    _creator: user._id,
+  })
 
-  await post.save();
-  await user.posts.push(post);
-  await user.save();
-};
+  await post.save()
+  await user.posts.push(post)
+  await user.save()
+}
 
 const createUser = async () => {
   const fakeUser = new User({
@@ -30,27 +30,27 @@ const createUser = async () => {
     last_name: casual.last_name,
     email: casual.email,
     password: casual.password,
-    type: 'user'
-  });
+    type: 'user',
+  })
 
-  await fakeUser.save();
-  await createPost(fakeUser);
-  await createPost(fakeUser);
-  await createPost(fakeUser);
+  await fakeUser.save()
+  await createPost(fakeUser)
+  await createPost(fakeUser)
+  await createPost(fakeUser)
 
-  return fakeUser;
-};
+  return fakeUser
+}
 
 const seed = async () => {
-  await createUser();
-  await createUser();
-  await createUser();
-  await createUser();
+  await createUser()
+  await createUser()
+  await createUser()
+  await createUser()
 
-  mongoose.disconnect();
-};
+  mongoose.disconnect()
+}
 
-seed();
+seed()
 
 //TODO: seed database with friends and comments
 // console.log('what is user1', user1); <- returning undefined..

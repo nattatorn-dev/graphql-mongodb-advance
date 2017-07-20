@@ -6,19 +6,20 @@ import {
   GraphQLString,
   GraphQLList,
   GraphQLID,
-} from 'graphql';
+} from 'graphql'
 
-import { userService } from './../../services';
-import UserType from '../user';
-import PostType from '../post';
-import CommentType from '../comment';
-import DateType from '../customScalars/date';
+import { userService, authService } from './../../services'
+import UserType from '../user'
+import UserTokenType from '../userToken'
+import PostType from '../post'
+import CommentType from '../comment'
+import DateType from '../customScalars/date'
 
-//import input types 
+//import input types
 // import { updatePost } from './post';
 
 let CreateUserType = new GraphQLInputObjectType({
-  name: 'UserInput',
+  name: 'createUser',
   description: 'A person who uses the app',
   // interfaces: nodeInterface,
   fields: () => ({
@@ -28,11 +29,27 @@ let CreateUserType = new GraphQLInputObjectType({
     },
     email: {
       type: GraphQLString,
-      description: 'user\'s email address',
+      description: "user's email address",
     },
     password: {
       type: GraphQLString,
-      description: 'user\'s password',
+      description: "user's password",
+    },
+  }),
+})
+
+let LoginUserType = new GraphQLInputObjectType({
+  name: 'loginUser',
+  description:
+    'Use the user token, your app ID and app secret to make the following call from your server',
+  fields: () => ({
+    username: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'username created by user',
+    },
+    password: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: "user's password",
     },
   }),
 })
@@ -70,29 +87,45 @@ let UpdateUserType = new GraphQLInputObjectType({
     //   type: new GraphQLList(UserType),
     // },
   }),
-});
+})
 
 const UserMutations = {
+  login: {
+    type: UserTokenType,
+    description: 'check user log in with app',
+    args: {
+      user: { type: LoginUserType },
+    },
+    resolve: async (root, { user: args }) => {
+      const { _id, token } = await authService.login(args)
+      const user = await userService.getUserById(_id)
+
+      return Promise.resolve({
+        user,
+        token
+      })
+    },
+  },
   createUser: {
     type: UserType,
     description: 'new user signs up with app',
     args: {
-      user: { type: CreateUserType }
+      user: { type: CreateUserType },
     },
     resolve: (root, { user }) => {
-      return userService.createUser(user);
-    }
+      return userService.createUser(user)
+    },
   },
   updateUser: {
     type: UserType,
     description: 'user makes changes to profile',
     args: {
-      user: { type: UpdateUserType }
+      user: { type: UpdateUserType },
     },
     resolve: (root, { user }) => {
-      return userService.updateUser(user);
-    }
-  }
+      return userService.updateUser(user)
+    },
+  },
 }
 
-export default UserMutations;
+export default UserMutations

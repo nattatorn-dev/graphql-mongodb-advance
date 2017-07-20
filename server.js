@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import express from 'express';
 import graphQLHTTP from 'express-graphql';
 import path from 'path';
@@ -8,6 +10,7 @@ import bodyParser from 'body-parser';
 import { Schema } from './data/schema';
 import db from './data';
 import config from './config';
+const jwt = require('jwt-simple')
 
 const GRAPHQL_PORT = config.port;
 
