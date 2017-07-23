@@ -11,8 +11,7 @@ import {
 import { Post } from '../models'
 import { nodeInterface } from './../node'
 import DateType from './customScalars/date'
-import UserType from './user'
-import CommentType from './comment'
+import { UserType, CommentType, TagType } from './'
 
 let PostType = new GraphQLObjectType({
   name: 'Post',
@@ -28,6 +27,10 @@ let PostType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'title of the post',
     },
+    description: {
+      type: GraphQLString,
+      description: 'description of the post',
+    },
     content: {
       type: GraphQLString,
       description: 'content of post',
@@ -40,6 +43,10 @@ let PostType = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(CommentType),
       description: 'comments on the post',
+    },
+    tags: {
+      type: new GraphQLList(TagType),
+      description: 'tags on the post',
     },
     created_at: {
       type: DateType,

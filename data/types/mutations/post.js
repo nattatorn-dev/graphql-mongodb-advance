@@ -6,13 +6,13 @@ import {
   GraphQLString,
   GraphQLList,
   GraphQLID,
-} from 'graphql';
+} from 'graphql'
 
-import { postService } from './../../services';
-import UserType from '../user';
-import PostType from '../post';
-import CommentType from '../comment';
-import DateType from '../customScalars/date';
+import { postService } from './../../services'
+import UserType from '../user'
+import PostType from '../post'
+import CommentType from '../comment'
+import DateType from '../customScalars/date'
 
 let CreatePostType = new GraphQLInputObjectType({
   name: 'createPost',
@@ -29,8 +29,8 @@ let CreatePostType = new GraphQLInputObjectType({
       type: new GraphQLNonNull(GraphQLID),
       description: 'author id of the post',
     },
-  })
-});
+  }),
+})
 
 let UpdatePostType = new GraphQLInputObjectType({
   name: 'updatePost',
@@ -51,7 +51,7 @@ let UpdatePostType = new GraphQLInputObjectType({
     },
     //remember to update update_at field to time reflect changes made
   }),
-});
+})
 
 const PostMutations = {
   createPost: {
@@ -61,20 +61,18 @@ const PostMutations = {
       input: { type: CreatePostType },
     },
     resolve: (root, { input }) => {
-      //root undefined
-      return postService.createPost(input);
+      return postService.createPost(input)
     },
   },
   updatePost: {
     type: PostType,
     args: {
-      input: { type: UpdatePostType }
+      input: { type: UpdatePostType },
     },
     resolve: (root, { input }) => {
-      return postService.updatePost(input);
+      return postService.updatePost(input)
     },
-  }
-};
+  },
+}
 
-
-export default PostMutations;
+export default PostMutations
